@@ -1,0 +1,61 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+ */
+
+
+/****************** PARTICIPANT QUERIES: START ******************/
+query selectCustomers {
+  description: "Select all customers"
+  statement:
+      SELECT org.asset-network.com.Customer
+}
+
+query selectExchanges {
+  description: "Select all exchanges"
+  statement:
+      SELECT org.asset-network.com.Exchange
+}
+
+query selectBusinesses {
+  description: "Select all businesses"
+  statement:
+      SELECT org.asset-network.com.Business
+}
+
+/****************** PARTICIPANT QUERIES: END ******************/
+/****************** ACCOUNT QUERIES: START ******************/
+
+query queryBalance {
+  description: "View your balance"
+  statement:
+      SELECT org.asset-network.com.Account
+        WHERE (accountId==_$accountId AND owner==_$owner )
+}
+
+query viewAccounts {
+  description: "View owned accounts"
+  statement:
+      SELECT org.asset-network.com.Account
+        WHERE (owner==_$owner )
+}
+
+query viewBalanceOfFounders {
+  description: "Returns balance of founder accounts"
+  statement:
+      SELECT org.asset-network.com.Account
+        WHERE (accountId=="1")
+}
+
+
+/****************** ACCOUNT QUERIES: END ******************/
