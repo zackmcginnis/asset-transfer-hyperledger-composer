@@ -13,32 +13,24 @@
  */
 
  /****************** PARTICIPANT RULES: START ******************/
- rule EverybodyCanReadEverything {
-     description: "Allow all participants read access to all resources"
-     participant: "org.asset-network.com.User"
-     operation: READ
-     resource: "org.asset-network.com.*"
-     action: ALLOW
- }
-
- rule OnlyAdminCanSpawnCurrency {
-     description: "Only admin can create an Account asset with a value greater than 0"
+ rule OnlyBusinessCanCreateVehicle {
+     description: "Only Business can create an Vehicle asset with a value greater than 0"
      participant(p): "org.asset-network.com.User"
      operation: CREATE
-     resource(r): "org.asset-network.com.Account"
-     condition: (r.balance > 0 && p.accountType !== "Admin")
+     resource(r): "org.asset-network.com.Vehicle"
+     condition: (p.accountType.getIdentifier() === "BUSINESS")
      action: DENY
  }
 
 /****************** PARTICIPANT RULES: END ******************/
 /****************** ACCOUNT RULES: START ******************/
-rule OnlyReadOwnAccount {
-    description: "Allow all participants read access to all resources"
-    participant(p): "org.asset-network.com.User"
+rule OnlyReadOwnVehicles {
+    description: "Customers cant view other customers vehicles"
+    participant(p): "org.asset-network.com.Customer"
     operation: READ
-    resource(r): "org.asset-network.com.Account"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
-    action: ALLOW
+    resource(r): "org.asset-network.com.Vehicle"
+    condition: (r.owner.accountType.getIdentifier() === "CUSTOMER")
+    action: DENY
 }
 
 /****************** ACCOUNT RULES: END ******************/

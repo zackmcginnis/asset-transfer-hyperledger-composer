@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../data.service';
 import { Observable } from 'rxjs/Observable';
-import { Trader } from '../org.panda.rowan';
+import { Trader } from '../org.asset-network.com';
 import 'rxjs/Rx';
 
 // Can be injected into a constructor

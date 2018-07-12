@@ -15,6 +15,10 @@
 namespace org.asset-network.com
 
 /****************** MODEL DEFINITIONS: START ******************/
+enum AccountType {
+    o CUSTOMER
+    o BUSINESS
+}
 
 /**
  * A User participant
@@ -23,18 +27,8 @@ abstract participant User identified by userId {
   o String userId
   o String firstName
   o String lastName
-  o String accountType
+  o AccountType accountType
   o String email
-}
-
-/**
- * An Admin participant
- */
-participant Admin extends User {
-    o String address1
-    o String address2
-    o String country
-    o String postcode
 }
 
 /**
@@ -57,21 +51,9 @@ participant Business extends User {
     o String postcode
 }
 
-/**
- * An Exchange participant
- */
-participant Exchange extends User {
-    o String address1
-    o String address2
-    o String country
-    o String postcode
-}
-
-asset Account identified by accountId {
-  o String accountId
+asset Vehicle identified by vehicleId {
+  o String vehicleId
   --> User owner
-  o Double balance
-  o Boolean frozen
 }
 
 /****************** MODEL DEFINITIONS: END ******************/
@@ -81,140 +63,24 @@ NOTE: Composer REST Server automatically sets up endpoints for CRUD operations (
 The following transactions act as an extension to these automatically generated endpoints, and may overlap in many areas
 */
 
-transaction CreateCompleteParticipant {
-  o String email
-  o String accountType
-}
-
-event CreateCompleteParticipantNotification {
-  o String email
-  o String accountType
-}
-
-transaction RemoveCompleteParticipant {
-  o String userId
-}
-
-event RemoveCompleteParticipantNotification {
-  o String userId
-}
-
-transaction CreateParticipant {
-  o String email
-  o String accountType
-  o String address1
-  o String address2
-  o String country
-  o String postcode
-  o String userId
-  o String firstName
-  o String lastName
-}
-
-event CreateParticipantNotification {
-o String email
-  o String accountType
-  o String address1
-  o String address2
-  o String country
-  o String postcode
-  o String userId
-  o String firstName
-  o String lastName
-}
-
-transaction DeleteParticipant {
-  o String userId
-}
-
-event DeleteParticipantNotification {
-  o String userId
-}
-
 
 /****************** PARTICIPANT TRANSACTIONS: END ******************/
 /****************** ACCOUNT TRANSACTIONS: START ******************/
 /*
-NOTE: Composer REST Server automatically sets up endpoints for CRUD operations (GET, POST, etc...) for the Account asset.
+NOTE: Composer REST Server automatically sets up endpoints for CRUD operations (GET, POST, etc...) for the Vehicle asset.
 The following transactions act as an extension to these automatically generated endpoints, and may overlap in many areas
 */
 
 transaction Transfer {
-  --> User from
-  --> User to
-  --> Account fromAccount
-  --> Account toAccount
-  o Double amount
+  --> User owner
+  --> User newOwner
+  --> Vehicle vehicle
 }
 
 event TransferNotification {
-  --> User from
-  --> User to
-  o Double amount
-}
-
-transaction FreezeAccount {
   --> User owner
-  --> Account account
-}
-
-event FreezeNotification {
-  --> User owner
-  --> Account account
-}
-
-transaction ThawAccount {
-  --> User owner
-  --> Account account
-}
-
-event ThawNotification {
-  --> User owner
-  --> Account account
-}
-
-transaction CreateAccount {
-  --> User owner
-  --> Account account
-}
-
-event CreateAccountNotification {
-  --> User owner
-  --> Account account
-}
-
-transaction RemoveAccount {
-  --> User owner
-  --> Account account
-}
-
-event RemoveAccountNotification {
-  --> User owner
-  --> Account account
-}
-
-transaction RemoveAllAccounts {
-  --> User owner
-}
-
-event RemoveAllAccountsNotification {
-  --> User owner
-}
-
-transaction SchedulePayment {
-  --> User owner
-  --> Account account
-  o Double amount
-  o String frequency
-  o String startDate
-}
-
-event SchedulePaymentNotification {
-  --> User owner
-  --> Account account
-  o Double amount
-  o String frequency
-  o String startDate
+  --> User newOwner
+  --> Vehicle vehicle
 }
 
 /****************** ACCOUNT TRANSACTIONS: END ******************/
@@ -227,13 +93,13 @@ event GetUserTransactionHistoryNotification {
   --> User owner
 }
 
-transaction GetAccountTransactionHistory {
+transaction GetVehicleTransactionHistory {
   --> User owner
-  --> Account account
+  --> Vehicle vehicle
 }
 
-event GetAccountTransactionHistoryNotification {
+event GetVehicleTransactionHistoryNotification {
   --> User owner
-  --> Account account
+  --> Vehicle vehicle
 }
 /****************** HISTORIAN TRANSACTIONS: END ******************/

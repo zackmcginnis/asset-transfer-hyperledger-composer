@@ -31,13 +31,13 @@ describe('Starting tests for angular-app', function() {
     })
   });
 
-  it('network-name should be rowan@0.0.1',() => {
+  it('network-name should be com@0.0.1',() => {
     element(by.css('.network-name')).getWebElement()
     .then((webElement) => {
       return webElement.getText();
     })
     .then((txt) => {
-      expect(txt).toBe('rowan@0.0.1.bna');
+      expect(txt).toBe('com@0.0.1.bna');
     });
   });
 

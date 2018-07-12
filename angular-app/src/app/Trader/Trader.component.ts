@@ -97,7 +97,7 @@ export class TraderComponent implements OnInit {
 
   addParticipant(form: any): Promise<any> {
     this.participant = {
-      $class: 'org.panda.rowan.Trader',
+      $class: 'org.asset-network.com.Trader',
       'tradeId': this.tradeId.value,
       'firstName': this.firstName.value,
       'lastName': this.lastName.value
@@ -131,7 +131,7 @@ export class TraderComponent implements OnInit {
 
    updateParticipant(form: any): Promise<any> {
     this.participant = {
-      $class: 'org.panda.rowan.Trader',
+      $class: 'org.asset-network.com.Trader',
       'firstName': this.firstName.value,
       'lastName': this.lastName.value
     };

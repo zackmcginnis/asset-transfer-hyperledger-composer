@@ -1,7 +1,7 @@
-## panda-composer
+## asset-network-composer
 ### Fabric Network Setup
 If you haven't already, install Composer pre-reqs here: https://hyperledger.github.io/composer/latest/installing/installing-prereqs.html
-After you have installed the pre-reqs, open a terminal in this directory `panda-composer`
+After you have installed the pre-reqs, open a terminal in this directory `composer`
 Run the following commands:
 `npm install`
 `npm install -g composer-cli`
@@ -30,52 +30,52 @@ At the end of your development session, you run `fabric-dev-servers/stopFabric.s
 Assuming you have already completed the `./createPeerAdminCard.sh` step in the previous section,
 run the following commands:
 To install the bna:
-`composer network install --card PeerAdmin@hlfv1 --archiveFile panda@0.0.x.bna`
-(be sure to substitute `panda@0.0.x.bna` for the latest version you have)
+`composer network install --card PeerAdmin@hlfv1 --archiveFile asset-network@0.0.x.bna`
+(be sure to substitute `asset-network@0.0.x.bna` for the latest version you have)
 
 If you do not have a `.bna` archive file, use this command to generate one:
 `composer archive create -t dir -n .`
 
 To start the bna:
-`composer network start --networkName panda --networkVersion 0.0.x --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card`
+`composer network start --networkName asset-network --networkVersion 0.0.x --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card`
 (be sure to substitute `0.0.x` for the latest version you have)
 
 Import network admin card:
 `composer card import --file networkadmin.card`
 
 Test your network:
-`composer network ping --card admin@panda`
+`composer network ping --card admin@asset-network`
 
 #### To upgrade (after making changes)
-Whenever changes are made to a `.qry`, `.acl`, or `.cto` file, the Business Network must be re-archived (we generate a new `.bna` file with a new version number i.e. `panda@0.0.2.bna` becomes `panda@0.0.3.bna`)
+Whenever changes are made to a `.qry`, `.acl`, or `.cto` file, the Business Network must be re-archived (we generate a new `.bna` file with a new version number i.e. `asset-network@0.0.2.bna` becomes `asset-network@0.0.3.bna`)
 
 After changing the files in a business network (`.qry`, `.acl`, or `.cto` files), the business network must be repackaged as a business network archive (.bna) and redeployed to the Hyperledger Fabric instance. Upgrading a deployed network requires that the new version being deployed have a new version number.
 
-In the panda-composer directory, open the package.json file.
+In the asset-network-composer directory, open the package.json file.
 
 Update the version property from 0.0.x to 0.0.x+1.
 
-Using the command line, navigate to the panda-composer directory.
+Using the command line, navigate to the asset-network-composer directory.
 
 Run the following command be sure to input the correct/latest `.bna` file name/version:
-`composer archive create --sourceType dir --sourceName . -a panda@0.0.x.bna`
-(be sure to substitute `panda@0.0.x.bna` for your generated filename)
+`composer archive create --sourceType dir --sourceName . -a asset-network@0.0.x.bna`
+(be sure to substitute `asset-network@0.0.x.bna` for your generated filename)
 
 Run the following command to install the updated business network:
-`composer network install --card PeerAdmin@hlfv1 --archiveFile panda@0.0.x.bna`
-(be sure to substitute `panda@0.0.x.bna` for your generated filename)
+`composer network install --card PeerAdmin@hlfv1 --archiveFile asset-network@0.0.x.bna`
+(be sure to substitute `asset-network@0.0.x.bna` for your generated filename)
 
 Then, complete the upgrade:
-`composer network upgrade -c PeerAdmin@hlfv1 -n panda -V 0.0.x`
+`composer network upgrade -c PeerAdmin@hlfv1 -n asset-network -V 0.0.x`
 (be sure to substitute `0.0.x.` for your latest version)
 
 Confirm the network is upgraded:
-`composer network ping -c admin@panda | grep Business`
+`composer network ping -c admin@asset-network | grep Business`
 
 ### Generate REST-API server (necessary for testing queries/updates to network and ledger)
-From the panda-composer directory:
+From the asset-network-composer directory:
 `composer-rest-server`
-Enter admin@panda as the card name.
+Enter admin@asset-network as the card name.
 Select never use namespaces when asked whether to use namespaces in the generated API.
 Select No when asked whether to secure the generated API.
 Select Yes when asked whether to enable event publication.
@@ -83,7 +83,7 @@ Select No when asked whether to enable TLS security.
 The generated API is connected to the deployed blockchain and business network.
 NOTE: these options selections are for development purposes only
 To skip the previous selection process, enter the following command:
-`composer-rest-server -c admin@panda -n never -w true`
+`composer-rest-server -c admin@asset-network -n never -w true`
 
 The API server will run on localhost:3000
 
@@ -95,9 +95,9 @@ The client-app will run on localhost:4200
 
 
 ##ISSUES
-Using my Windows machine (I know) with Docker terminal, the command `composer network install --card PeerAdmin@hlfv1 --archiveFile panda@0.0.x.bna` resulted in the following error: "Response from attempted peer comms was an error: Error: 14 UNAVAILABLE: Connect Failed".
+Using my Windows machine (I know) with Docker terminal, the command `composer network install --card PeerAdmin@hlfv1 --archiveFile asset-network@0.0.x.bna` resulted in the following error: "Response from attempted peer comms was an error: Error: 14 UNAVAILABLE: Connect Failed".
 
-To fix this, I had to make a few changes to the file located at `panda-composer/fabric-dev-servers/fabric-scripts/hlfv11/createPeerAdminCard.sh`
+To fix this, I had to make a few changes to the file located at `asset-network-composer/fabric-dev-servers/fabric-scripts/hlfv11/createPeerAdminCard.sh`
 Within this file, copy/past the following at the beginning of the function definitions:
 CYGDIR="$(cygpath -pw "$DIR")"
 if [[ ! -v DOCKER_HOST ]]; then

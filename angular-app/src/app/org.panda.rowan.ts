@@ -2,7 +2,7 @@ import {Asset} from './org.hyperledger.composer.system';
 import {Participant} from './org.hyperledger.composer.system';
 import {Transaction} from './org.hyperledger.composer.system';
 import {Event} from './org.hyperledger.composer.system';
-// export namespace org.panda.rowan{
+// export namespace org.asset-network.com{
    export class Commodity extends Asset {
       tradingSymbol: string;
       description: string;

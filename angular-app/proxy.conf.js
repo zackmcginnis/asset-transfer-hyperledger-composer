@@ -15,7 +15,7 @@
 function getTarget() {
     if (process.env.REST_SERVER_URLS) {
         const restServerURLs = JSON.parse(process.env.REST_SERVER_URLS);
-        const restServerURL = restServerURLs['rowan'];
+        const restServerURL = restServerURLs['com'];
         if (restServerURL) {
             return restServerURL;
         }
